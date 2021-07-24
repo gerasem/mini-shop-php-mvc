@@ -2,7 +2,7 @@
 include 'elements/header.php';
 include 'elements/categories.php';
 ?>
-hello
+<p>hello</p>
 
 
 <?php

@@ -1,12 +1,13 @@
 <?php
-include ROOT.'/controllers/AppController/AppController.php';
+include ROOT . '/controllers/AppController.php';
 
 final class FrontendController extends AppController
 {
-    public function actionIndex()
+    public function index()
     {
-        require_once $this->render(__FUNCTION__);
+        require_once ROOT.'/views/frontend/index.php';
 
         return true;
     }
+
 }

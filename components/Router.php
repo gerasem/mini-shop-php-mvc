@@ -4,13 +4,11 @@ class Router
 {
     private $routes;
 
-
     public function __construct()
     {
         $routesPath = ROOT . '/config/routes.php';
         $this->routes = include($routesPath);
     }
-
 
     // Return type
 
@@ -20,7 +18,6 @@ class Router
             return trim($_SERVER['REQUEST_URI'], '/');
         }
     }
-
 
     public function run()
     {
@@ -39,16 +36,23 @@ class Router
                 // Define Controller and Action
                 $segments = explode('/', $internalRoute);
 
-                $controllerName = array_shift($segments) . 'Controller';
-                $controllerName = ucfirst($controllerName);
+                $pluginName = ucfirst(array_shift($segments));
 
+                $controllerName = ucfirst(array_shift($segments));
 
-                $actionName = 'action' . ucfirst((array_shift($segments)));
+                $controllerName = $controllerName . 'Controller';
+
+                $actionName = (array_shift($segments));
 
                 $parameters = $segments;
 
                 // add File from Controller Class
-                $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
+                if (empty($pluginName)) {
+                    $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
+                } else {
+                    $controllerFile = ROOT . '/Plugins/' . $pluginName . '/controller/' . $controllerName . '.php';
+                }
+
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
 
@@ -67,7 +71,7 @@ class Router
         }
         if ($result === false) {
             http_response_code(404);
-            echo 'Fehler 404. Page/Contoller wurde nich gefunden';
+            echo 'Error 404: Controller not found';
         }
     }
 }
