@@ -1,0 +1,32 @@
+:root {
+  --color-primary: #eb3e7d;
+  --color-primary-hover: #f56d9f;
+  --color-primary-active: #fff3f8;
+
+  --color-secondary: #dfa44c;
+  --color-secondary-hover: #aaaaaa;
+
+  --color-text: #1e1e1e;
+
+  --color-gray: #fafafa;
+  --color-gray-light: #f7f7f7;
+  --font-primary: Montserrat, sans-serif;
+  --font-secondary: 'Playfair Display', serif;
+
+  --icon-size: 28px;
+  --icon-color: #787878;
+}
+
+
+$navbar-height: 6.25rem;
+
+$family-sans-serif: var(--font-primary);
+$primary: #eb3e7d;
+$link: #eb3e7d;
+$link-hover: #f56d9f;
+
+
+$input-radius: 0;
+$radius: 0;
+$radius-small: 0;
+//$input-shadow: none;
