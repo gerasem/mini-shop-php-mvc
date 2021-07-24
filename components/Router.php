@@ -6,12 +6,12 @@ class Router
 
     public function __construct()
     {
-        $routesPath = ROOT . '/config/routes.php';
-        $this->routes = include($routesPath);
+        $this->routes = include(ROOT . '/config/routes.php');
     }
 
-    // Return type
-
+    /**
+     * Return request string
+     */
     private function getURI()
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
@@ -26,11 +26,11 @@ class Router
         // Check URI in  routes.php
         $result = false;
         foreach ($this->routes as $uriPattern => $path) {
+
             // Compare $uriPattern and $uri
             if (preg_match("~^$uriPattern$~", $uri)) {
 
                 // Get internal Route from external Route according to the rule
-
                 $internalRoute = preg_replace("~^$uriPattern$~", $path, $uri);
 
                 // Define Controller and Action
@@ -39,10 +39,9 @@ class Router
                 $pluginName = ucfirst(array_shift($segments));
 
                 $controllerName = ucfirst(array_shift($segments));
-
                 $controllerName = $controllerName . 'Controller';
 
-                $actionName = (array_shift($segments));
+                $actionName = array_shift($segments);
 
                 $parameters = $segments;
 
@@ -61,7 +60,6 @@ class Router
                 // Create an Object. Call a Method (action)
                 $controllerObject = new $controllerName;
 
-                // OLD $result           = $controllerObject->$actionName();
                 $result = call_user_func_array([$controllerObject, $actionName], $parameters);
 
                 if ($result != null) {
@@ -71,6 +69,7 @@ class Router
         }
         if ($result === false) {
             http_response_code(404);
+            // ToDo redirect to 404.php
             echo 'Error 404: Controller not found';
         }
     }
