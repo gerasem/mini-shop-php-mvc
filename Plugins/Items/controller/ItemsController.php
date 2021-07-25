@@ -29,4 +29,11 @@ final class ItemsController extends AppController
 
         return true;
     }
+
+    public function get($alias){
+        $itemForView = Items::getItem($alias);
+        require_once ROOT . '/Plugins/Items/view/items/get.php';
+
+        return true;
+    }
 }

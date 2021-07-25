@@ -2,6 +2,11 @@
 
 class Items extends AppModel
 {
+    /**
+     * New Item insert
+     * @param $newItem
+     * @return bool|string
+     */
     public static function addItem($newItem)
     {
         try {
@@ -47,12 +52,36 @@ class Items extends AppModel
 
     }
 
+    /**
+     * Get 4 new items (for main page)
+     * @param int $limit
+     * @return array
+     */
     public static function getNewItems($limit = 4)
     {
         $newItems = R::find('items', 'ORDER BY date desc LIMIT ?', [$limit]);
         return $newItems;
     }
 
+    /**
+     * Get Item select
+     * @param $slug
+     * @return \RedBeanPHP\OODBBean
+     */
+    public static function getItem($slug)
+    {
+        $itemId = self::_getIdFromSlug($slug);
+        $item = R::load('items', $itemId);
+        return $item;
+    }
+
+
+    /**
+     * PRIVATE
+     * check alias (slug) duplicate
+     * @param $alias
+     * @return bool
+     */
     private static function _aliasDuplicate($alias)
     {
         if (R::find('items', 'alias = ?', [$alias])) {
@@ -60,9 +89,26 @@ class Items extends AppModel
         } else {
             return false;
         }
-
     }
 
+    /**
+     * PRIVATE
+     * select if from items where alias is **
+     * @param $slug
+     * @return string
+     */
+    private static function _getIdFromSlug($slug)
+    {
+        return R::getCell('SELECT id FROM items WHERE alias = ?', [$slug]);
+    }
+
+    /**
+     * PRIVATE
+     * generate alias (slug) from string
+     * @param $text
+     * @param string $divider
+     * @return false|string|string[]|null
+     */
     private static function _generateSlug($text, string $divider = '-')
     {
         // replace non letter or digits by divider
