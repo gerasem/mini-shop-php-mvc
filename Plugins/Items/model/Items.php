@@ -1,6 +1,7 @@
 <?php
 
-class Items extends AppModel {
+class Items extends AppModel
+{
     public static function addItem($newItem)
     {
         $requiredFields = [
@@ -14,7 +15,7 @@ class Items extends AppModel {
 
         $emptyFields = self::validate($requiredFields, $newItem);
 
-        if(empty($emptyFields)) {
+        if (empty($emptyFields)) {
             $item = R::dispense('items');
             $item->name = $newItem['name'];
             $item->price = $newItem['price'];
@@ -26,18 +27,26 @@ class Items extends AppModel {
             $item->parametrs = '';
             $item->description = $newItem['description'];
             $item->category_id = $newItem['category_id'];
+            $item->date = date("Y-m-d H:i:s");
             R::store($item);
-        } else{
+        } else {
             return $emptyFields;
         }
 
         return true;
     }
 
-    private static function validate($requiredFields, $newItem) {
+    public static function getNewItems($limit = 4)
+    {
+        $newItems = R::find('items', 'ORDER BY date desc LIMIT ?', [$limit]);
+        return $newItems;
+    }
+
+    private static function validate($requiredFields, $newItem)
+    {
         $emptyFields = [];
-        foreach ($requiredFields as $field){
-            if(empty($newItem[$field])){
+        foreach ($requiredFields as $field) {
+            if (empty($newItem[$field])) {
                 $emptyFields[] = $field;
             }
         }

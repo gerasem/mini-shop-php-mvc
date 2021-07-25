@@ -17,9 +17,11 @@
         <div class="column">
             <h1 class="title is-1">New items</h1>
             <div class="columns">
-                <?php include 'elements/item.php' ?>
-                <?php include 'elements/item.php' ?>
-                <?php include 'elements/item.php' ?>
+                <?php
+                foreach ($newItems as $item){
+                    include 'elements/item.php';
+                }
+                ?>
             </div>
             <div class="block content">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias animi ducimus eaque ex
