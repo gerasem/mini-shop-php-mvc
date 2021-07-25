@@ -11,7 +11,7 @@ class Items extends AppModel
     {
         try {
             // check if alias is already in use
-            if (self::_aliasDuplicate($newItem['alias'])) {
+            if (self::aliasDuplicate($newItem['alias'], 'items')) {
                 throw new Exception("The alias is already in use");
             }
             $newItem['alias'] = self::generateSlug($newItem['name']);
@@ -29,9 +29,10 @@ class Items extends AppModel
                     throw new Exception("One of the fields is not filled");
                 }
             }
-
-            if($newItem['old_price'] <= $newItem['price']) {
-                throw new Exception("Price is less than old price");
+            if (!empty($newItem['old_price'])) {
+                if ($newItem['old_price'] <= $newItem['price']) {
+                    throw new Exception("Price is less than old price");
+                }
             }
             //DB insert
             $category = R::dispense('categories');
@@ -49,7 +50,7 @@ class Items extends AppModel
             $item->description = $newItem['description'];
             $item->category_id = $newItem['category_id'];
             $item->date = date("Y-m-d H:i:s");
-            $category->ownItemList[] = $item;
+            $category->ownItemsList[] = $item;
             R::store($category);
 
             return true;
@@ -77,35 +78,17 @@ class Items extends AppModel
      */
     public static function getItem($slug)
     {
-        $itemId = self::_getIdFromSlug($slug);
+        $itemId = self::getIdFromSlug($slug, 'items');
         $item = R::load('items', $itemId);
         return $item;
     }
 
-
-    /**
-     * PRIVATE
-     * check alias (slug) duplicate
-     * @param $alias
-     * @return bool
-     */
-    private static function _aliasDuplicate($alias)
+    public static function getItemsFromCategory($slug)
     {
-        if (R::find('items', 'alias = ?', [$alias])) {
-            return true;
-        } else {
-            return false;
-        }
+        $categoryId = self::getIdFromSlug($slug, 'categories');
+        $items = R::load('categories', $categoryId);
+        return $items;
     }
 
-    /**
-     * PRIVATE
-     * select if from items where alias is **
-     * @param $slug
-     * @return string
-     */
-    private static function _getIdFromSlug($slug)
-    {
-        return R::getCell('SELECT id FROM items WHERE alias = ?', [$slug]);
-    }
+
 }

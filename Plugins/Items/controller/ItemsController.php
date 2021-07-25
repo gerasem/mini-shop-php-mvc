@@ -37,4 +37,12 @@ final class ItemsController extends AppController
 
         return true;
     }
+
+    public function getItemsFromCategory($alias){
+        $categoriesForView = Categories::getCategories();
+        $itemsForView = Items::getItemsFromCategory($alias);
+        require_once ROOT . '/Plugins/Items/view/getAll.php';
+
+        return true;
+    }
 }

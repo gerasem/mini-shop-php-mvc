@@ -35,4 +35,31 @@ class AppModel
 
         return $text;
     }
+
+    /**
+     * check alias (slug) duplicate
+     * @param $alias
+     * @return bool
+     */
+    public static function aliasDuplicate($alias, $table)
+    {
+        $table = trim(stripslashes(htmlspecialchars($table)));
+        if (R::find($table, 'alias = ?', [$alias])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+
+     * select if from items where alias is **
+     * @param $slug
+     * @return string
+     */
+    public static function getIdFromSlug($slug, $table)
+    {
+        $table = trim(stripslashes(htmlspecialchars($table)));
+        return R::getCell("SELECT id FROM {$table} WHERE alias = ?", [$slug]);
+    }
 }

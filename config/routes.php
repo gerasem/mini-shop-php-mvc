@@ -11,6 +11,8 @@ return [
     'item/([a-zA-Z0-9_\-\.]+)' => 'items/items/get/$1',
     'categories/add' => 'categories/categories/add',
 
+    'category/([a-zA-Z0-9_\-\.]+)' => 'items/items/getItemsFromCategory/$1',
+
     'index.php' => '/frontend/index',
     'index' => '/frontend/index',
     'index.html' => '/frontend/index',

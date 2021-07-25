@@ -4,7 +4,7 @@ if (file_exists(ROOT . "/images/{$item->image_alias}.png")) {
     $image = "/images/{$item->image_alias}.png";
 }
 ?>
-<div class="column">
+<div class="column is-one-quarter">
     <div class="card">
         <div class="card-image">
             <figure class="image is-4by3">

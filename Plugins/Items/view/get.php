@@ -75,8 +75,5 @@
                 <?= $itemForView->description ?>
             </div>
         </div>
-
-        <?php //pr($itemForView);exit; ?>
-
     </div>
 <?php include ROOT . '/views/elements/footer.php'; ?>

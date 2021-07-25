@@ -14,7 +14,13 @@ class Categories extends AppModel {
             if(empty($categoryName)){
                 throw new Exception("Category name is empty");
             }
+
             $slug = self::generateSlug($categoryName);
+
+            // check if alias is already in use
+            if (self::aliasDuplicate($slug, 'categories')) {
+                throw new Exception("The alias is already in use");
+            }
 
             $category = R::dispense('categories');
             $category->name = $categoryName;

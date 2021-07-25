@@ -4,7 +4,7 @@
     </p>
     <ul class="menu-list">
         <?php foreach ($categoriesForView as $category): ?>
-            <li><a><?= $category['name'] ?></a></li>
+            <li><a href="/category/<?= $category['alias'] ?>"><?= $category['name'] ?></a></li>
         <?php endforeach; ?>
     </ul>
     <p class="menu-label">
