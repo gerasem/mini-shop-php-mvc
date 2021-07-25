@@ -14,7 +14,7 @@ class Items extends AppModel
             if (self::_aliasDuplicate($newItem['alias'])) {
                 throw new Exception("The alias is already in use");
             }
-            $newItem['alias'] = self::_generateSlug($newItem['name']);
+            $newItem['alias'] = self::generateSlug($newItem['name']);
 
             // check if one of the fields is not filled
             $requiredFields = [
@@ -100,39 +100,5 @@ class Items extends AppModel
     private static function _getIdFromSlug($slug)
     {
         return R::getCell('SELECT id FROM items WHERE alias = ?', [$slug]);
-    }
-
-    /**
-     * PRIVATE
-     * generate alias (slug) from string
-     * @param $text
-     * @param string $divider
-     * @return false|string|string[]|null
-     */
-    private static function _generateSlug($text, string $divider = '-')
-    {
-        // replace non letter or digits by divider
-        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
-
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        // trim
-        $text = trim($text, $divider);
-
-        // remove duplicate divider
-        $text = preg_replace('~-+~', $divider, $text);
-
-        // lowercase
-        $text = strtolower($text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
     }
 }

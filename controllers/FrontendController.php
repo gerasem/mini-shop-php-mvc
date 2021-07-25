@@ -7,10 +7,10 @@ final class FrontendController extends AppController
 {
     public function index()
     {
-        $categories = Categories::get();
+        $categoriesForView = Categories::getCategories();
 
-        $newItems = Items::getNewItems();
-        require_once ROOT.'/views/frontend/index.php';
+        $newItemsForView = Items::getNewItems();
+        require_once ROOT . '/views/index.php';
 
         return true;
     }

@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="de" class="">
 <head>
-    <?php include ROOT . '/views/frontend/elements/head.php'; ?>
+    <?php include ROOT . '/views/elements/head.php'; ?>
     <meta name="description" content="">
     <title></title>
 </head>
 <body>
 <div class="container is-fluid">
-    <?php include ROOT . '/views/frontend/elements/navbar.php'; ?>
+    <?php include ROOT . '/views/elements/navbar.php'; ?>
 </div>
 <div class="container">
     <h1 class="title is-1">Add Item</h1>
@@ -23,6 +23,7 @@
         <div class="notification is-success">
             <button class="delete"></button>
             <h3 class="title is-4">Success</h3>
+            <p><?= $_COOKIE["message"] ?></p>
         </div>
     <?php endif; ?>
 
@@ -110,4 +111,4 @@
         </div>
     </form>
 </div>
-<?php include ROOT . '/views/frontend/elements/footer.php'; ?>
+<?php include ROOT . '/views/elements/footer.php'; ?>

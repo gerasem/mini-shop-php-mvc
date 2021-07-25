@@ -9,6 +9,7 @@ return [
     'items/delete/([0-9]+)' => 'items/items/delete',
 
     'item/([a-zA-Z0-9_\-\.]+)' => 'items/items/get/$1',
+    'categories/add' => 'categories/categories/add',
 
     'index.php' => '/frontend/index',
     'index' => '/frontend/index',

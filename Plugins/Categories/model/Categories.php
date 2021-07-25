@@ -2,18 +2,28 @@
 
 class Categories extends AppModel {
 
-    public static function get()
+    public static function getCategories()
     {
-        return $categories = [
-            1 => [
-                'name' => 'Category 1',
-            ],
-            2 => [
-                'name' => 'Category 2',
-            ],
-            3 => [
-                'name' => 'Category 3',
-            ],
-        ];
+        $categories = R::find('categories', 'ORDER BY name');
+        return $categories;
+    }
+
+    public static function addCategory($categoryName)
+    {
+        try {
+            if(empty($categoryName)){
+                throw new Exception("Category name is empty");
+            }
+            $slug = self::generateSlug($categoryName);
+
+            $category = R::dispense('categories');
+            $category->name = $categoryName;
+            $category->alias = $slug;
+            R::store($category);
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+
     }
 }

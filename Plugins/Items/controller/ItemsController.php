@@ -7,7 +7,7 @@ final class ItemsController extends AppController
 {
     public function add()
     {
-        $categoriesForView = Categories::get();
+        $categoriesForView = Categories::getCategories();
 
         if (isset($_POST['add_item'])) {
             $newItem = [];
@@ -25,14 +25,15 @@ final class ItemsController extends AppController
 
         }
 
-        require_once ROOT . '/Plugins/Items/view/items/add.php';
+        require_once ROOT . '/Plugins/Items/view/add.php';
 
         return true;
     }
 
     public function get($alias){
+        $categoriesForView = Categories::getCategories();
         $itemForView = Items::getItem($alias);
-        require_once ROOT . '/Plugins/Items/view/items/get.php';
+        require_once ROOT . '/Plugins/Items/view/get.php';
 
         return true;
     }
