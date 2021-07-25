@@ -4,18 +4,28 @@ class Items extends AppModel
 {
     public static function addItem($newItem)
     {
-        $requiredFields = [
-            'name',
-            'price',
-            'alias',
-            'image_alias',
-            'description',
-            'category_id',
-        ];
+        try {
+            // check if alias is already in use
+            if (self::_aliasDuplicate($newItem['alias'])) {
+                throw new Exception("The alias is already in use");
+            }
+            $newItem['alias'] = self::_generateSlug($newItem['name']);
 
-        $emptyFields = self::validate($requiredFields, $newItem);
+            // check if one of the fields is not filled
+            $requiredFields = [
+                'name',
+                'price',
+                'image_alias',
+                'category_id',
+                'description',
+            ];
+            foreach ($newItem as $item) {
+                if (empty($item) && in_array($item, $requiredFields)) {
+                    throw new Exception("One of the fields is not filled");
+                }
+            }
 
-        if (empty($emptyFields)) {
+            //DB insert
             $item = R::dispense('items');
             $item->name = $newItem['name'];
             $item->price = $newItem['price'];
@@ -29,11 +39,12 @@ class Items extends AppModel
             $item->category_id = $newItem['category_id'];
             $item->date = date("Y-m-d H:i:s");
             R::store($item);
-        } else {
-            return $emptyFields;
+
+            return true;
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
 
-        return true;
     }
 
     public static function getNewItems($limit = 4)
@@ -42,14 +53,40 @@ class Items extends AppModel
         return $newItems;
     }
 
-    private static function validate($requiredFields, $newItem)
+    private static function _aliasDuplicate($alias)
     {
-        $emptyFields = [];
-        foreach ($requiredFields as $field) {
-            if (empty($newItem[$field])) {
-                $emptyFields[] = $field;
-            }
+        if (R::find('items', 'alias = ?', [$alias])) {
+            return true;
+        } else {
+            return false;
         }
-        return $emptyFields;
+
+    }
+
+    private static function _generateSlug($text, string $divider = '-')
+    {
+        // replace non letter or digits by divider
+        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, $divider);
+
+        // remove duplicate divider
+        $text = preg_replace('~-+~', $divider, $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }

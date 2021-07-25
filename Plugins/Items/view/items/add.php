@@ -1,24 +1,25 @@
 <!doctype html>
 <html lang="de" class="">
+<head>
+    <?php include ROOT . '/views/frontend/elements/head.php'; ?>
+    <meta name="description" content="">
+    <title></title>
+</head>
 <body>
 <div class="container is-fluid">
     <?php include ROOT . '/views/frontend/elements/navbar.php'; ?>
 </div>
 <div class="container">
     <h1 class="title is-1">Add Item</h1>
-    <?php if (!empty($emptyFields)): ?>
+    <?php if (isset($errorForView)): ?>
         <div class="notification is-danger">
             <button class="delete"></button>
-            <h3 class="title is-4">These fields are required:</h3>
-            <ul>
-                <?php foreach ($emptyFields as $field): ?>
-                    <li><?= ucfirst($field) ?></li>
-                <?php endforeach; ?>
-            </ul>
+            <h3 class="title is-4">Error:</h3>
+            <p><?= $errorForView ?></p>
         </div>
     <?php endif; ?>
 
-    <?php if (isset($success)) : ?>
+    <?php if (isset($_COOKIE["message"])) : ?>
         <div class="notification is-success">
             <button class="delete"></button>
             <h3 class="title is-4">Success</h3>
@@ -31,15 +32,17 @@
                 <div class="field">
                     <label class="label">Name <span>*</span></label>
                     <div class="control">
-                        <input class="input" name="item[name]" type="text">
+                        <input class="input" name="item[name]" type="text"
+                               value="<?= $newItem['name'] ?? '' ?>">
                     </div>
                 </div>
             </div>
             <div class="column">
                 <div class="field">
-                    <label class="label">Alias <span>*</span></label>
+                    <label class="label">Alias</label>
                     <div class="control">
-                        <input class="input" name="item[alias]" type="text">
+                        <input class="input" name="item[alias]" type="text"
+                               value="<?= $newItem['alias'] ?? '' ?>">
                     </div>
                 </div>
             </div>
@@ -50,7 +53,8 @@
                 <div class="field">
                     <label class="label">Price <span>*</span></label>
                     <div class="control">
-                        <input class="input" name="item[price]" type="text">
+                        <input required class="input" name="item[price]" type="text"
+                               value="<?= $newItem['price'] ?? '' ?>">
                     </div>
                 </div>
             </div>
@@ -58,7 +62,8 @@
                 <div class="field">
                     <label class="label">Old Price</label>
                     <div class="control">
-                        <input class="input" name="item[old_price]" type="text">
+                        <input class="input" name="item[old_price]" type="text"
+                               value="<?= $newItem['old_price'] ?? '' ?>">
                     </div>
                 </div>
             </div>
@@ -66,7 +71,8 @@
                 <div class="field">
                     <label class="label">Image alias <span>*</span></label>
                     <div class="control">
-                        <input class="input" name="item[image_alias]" type="text">
+                        <input required class="input" name="item[image_alias]" type="text"
+                               value="<?= $newItem['image_alias'] ?? '' ?>">
                     </div>
                 </div>
             </div>
@@ -74,11 +80,11 @@
 
 
         <div class="field">
-            <label class="label">Category</label>
+            <label class="label">Category <span>*</span></label>
             <div class="control">
                 <div class="select">
-                    <select name="item[category_id]">
-                        <?php foreach ($categories as $key => $category): ?>
+                    <select required name="item[category_id]">
+                        <?php foreach ($categoriesForView as $key => $category): ?>
                             <option value="<?= $key ?>"><?= $category['name'] ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -87,9 +93,10 @@
         </div>
 
         <div class="field">
-            <label class="label">Description</label>
+            <label class="label">Description <span>*</span></label>
             <div class="control">
-                <textarea class="textarea" name="item[description]"></textarea>
+                <textarea required class="textarea"
+                          name="item[description]"><?= $newItem['description'] ?? '' ?></textarea>
             </div>
         </div>
 
@@ -104,12 +111,3 @@
     </form>
 </div>
 <?php include ROOT . '/views/frontend/elements/footer.php'; ?>
-
-</body>
-<head>
-    <?php include ROOT . '/views/frontend/elements/head.php'; ?>
-    <meta name="description" content="">
-    <title></title>
-</head>
-</html>
-

@@ -16,9 +16,12 @@
         </div>
         <div class="column">
             <h1 class="title is-1">New items</h1>
+            <?php if (empty($newItems)) : ?>
+                <p class="block">Nothing found</p>
+            <?php endif; ?>
             <div class="columns">
                 <?php
-                foreach ($newItems as $item){
+                foreach ($newItems as $item) {
                     include 'elements/item.php';
                 }
                 ?>

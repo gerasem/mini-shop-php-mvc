@@ -9,7 +9,6 @@ function pr($var)
     } else {
         echo 'Debug false';
     }
-
 }
 
 function bold($text)

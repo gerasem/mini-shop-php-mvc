@@ -1,6 +1,7 @@
 <?php
 
 class Categories extends AppModel {
+
     public static function get()
     {
         return $categories = [

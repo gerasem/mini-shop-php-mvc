@@ -7,7 +7,7 @@ final class ItemsController extends AppController
 {
     public function add()
     {
-        $categories = Categories::get();
+        $categoriesForView = Categories::get();
 
         if (isset($_POST['add_item'])) {
             $newItem = [];
@@ -15,12 +15,16 @@ final class ItemsController extends AppController
                 $newItem[$item] = $this->clearData($value);
             }
             $result = Items::addItem($newItem);
-            if ($result !== true) {
-                $emptyFields = $result;
+            if($result === true) {
+                setcookie("message", "New item added", time() + 1, '/');
+                header("Location: /items/add");
+                exit;
             } else{
-                $success = true;
-            };
+                $errorForView = $result;
+            }
+
         }
+
         require_once ROOT . '/Plugins/Items/view/items/add.php';
 
         return true;
