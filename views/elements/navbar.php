@@ -37,7 +37,7 @@
 
                     <hr class="navbar-divider">
                     <a class="navbar-item">
-                        Report an issue
+                        Settings
                     </a>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 <?php
-$image = "/images/item1.png";
+$image = "/images/default/item1.png";
 if (file_exists(ROOT . "/images/{$item->image_alias}.png")) {
     $image = "/images/{$item->image_alias}.png";
 }
