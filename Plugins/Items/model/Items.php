@@ -30,7 +30,13 @@ class Items extends AppModel
                 }
             }
 
+            if($newItem['old_price'] <= $newItem['price']) {
+                throw new Exception("Price is less than old price");
+            }
             //DB insert
+            $category = R::dispense('categories');
+            $category->id = $newItem['category_id'];
+
             $item = R::dispense('items');
             $item->name = $newItem['name'];
             $item->price = $newItem['price'];
@@ -43,7 +49,8 @@ class Items extends AppModel
             $item->description = $newItem['description'];
             $item->category_id = $newItem['category_id'];
             $item->date = date("Y-m-d H:i:s");
-            R::store($item);
+            $category->ownItemList[] = $item;
+            R::store($category);
 
             return true;
         } catch (Exception $e) {
