@@ -1,12 +1,13 @@
 <aside class="menu">
-    <p class="menu-label">
-        Categories
-    </p>
     <ul class="menu-list">
-        <li><a>Category 1</a></li>
-        <li><a>Category 2</a></li>
-        <li><a>Category 3</a></li>
+        <?php foreach ($categories as $category): ?>
+            <li><a><?= $category['name'] ?></a></li>
+        <?php endforeach; ?>
         <li><a>New Items</a></li>
         <li><a href="/items">All Items</a></li>
     </ul>
+
+    <p class="menu-label">
+        Categories
+    </p>
 </aside>

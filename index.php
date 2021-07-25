@@ -18,7 +18,7 @@ require(ROOT . '/config/basics.php');
 
 // 3. DB Connection
 
-//Db::getConnection();
+Db::getConnection();
 
 // 4. Router run
 
