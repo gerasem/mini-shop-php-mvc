@@ -17,7 +17,7 @@ class Db
             if (!R::testConnection()) {
                 exit('Connection error');
             }
-            R::debug(true, 3);
+            R::fancyDebug(true);
             R::startLogging();
         }
     }

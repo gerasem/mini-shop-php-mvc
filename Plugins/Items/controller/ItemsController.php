@@ -1,5 +1,6 @@
 <?php
 include ROOT . '/controllers/AppController.php';
+include ROOT . '/components/Pagination.php';
 include ROOT . '/Plugins/Items/model/Items.php';
 include ROOT . '/Plugins/Categories/model/Categories.php';
 
@@ -39,19 +40,23 @@ final class ItemsController extends AppController
         return true;
     }
 
-    public function getItemsFromCategory($categoryAlias)
+    public function getItemsFromCategory($categoryAlias, $page = 1)
     {
         $categoryAliasForView = $categoryAlias;
         $categoriesForView = Categories::getCategories();
-        $itemsForView = Items::getItemsFromCategory($categoryAlias);
+        $itemsForView = Items::getItemsFromCategory($categoryAlias, $page);
+        $total = Items::getItemsCount($categoryAlias);
+        $pagination = new Pagination($total, $page, Items::SHOW_BY_DEFAULT, 'page-');
         require_once ROOT . '/Plugins/Items/view/getItemsFromCategory.php';
         return true;
     }
 
-    public function getAllItems()
+    public function getAllItems($page = 1)
     {
         $categoriesForView = Categories::getCategories();
-        $itemsForView = Items::getAllItems();
+        $itemsForView = Items::getAllItems($page);
+        $total = Items::getItemsCount(0);
+        $pagination = new Pagination($total, $page, Items::SHOW_BY_DEFAULT, 'page-');
         require_once ROOT . '/Plugins/Items/view/getAllItems.php';
         return true;
     }

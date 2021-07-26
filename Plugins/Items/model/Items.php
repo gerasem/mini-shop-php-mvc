@@ -2,7 +2,9 @@
 
 class Items extends AppModel
 {
+    const SHOW_BY_DEFAULT_ON_MAIN_PAGE = 4;
     const SHOW_BY_DEFAULT = 4;
+
     /**
      * New Item insert
      * @param $newItem
@@ -66,7 +68,7 @@ class Items extends AppModel
      * @param int $limit
      * @return array
      */
-    public static function getNewItems($limit = self::SHOW_BY_DEFAULT)
+    public static function getNewItems($limit = self::SHOW_BY_DEFAULT_ON_MAIN_PAGE)
     {
         $newItems = R::find('items', 'ORDER BY date desc LIMIT ?', [$limit]);
         return $newItems;
@@ -84,18 +86,55 @@ class Items extends AppModel
         return $item;
     }
 
-    public static function getItemsFromCategory($slug)
+    /**
+     * Get Items from category
+     * @param $slug
+     * @param int $page
+     * @return mixed
+     */
+    public static function getItemsFromCategory($slug, $page = 1)
     {
+        $page = intval($page);
+        $offset = ($page - 1) * self::SHOW_BY_DEFAULT;
         $categoryId = self::getIdFromSlug($slug, 'categories');
         $items = R::load('categories', $categoryId);
-        return $items;
+
+        $result['categoryName'] = $items->name;
+        $result['items'] = $items->with('LIMIT ? OFFSET ?', [
+            self::SHOW_BY_DEFAULT,
+            $offset,
+        ])->ownItemsList;
+        return $result;
     }
 
-    public static function getAllItems()
+    /**
+     * Get all items
+     * @param int $page
+     * @return array
+     */
+    public static function getAllItems($page = 1)
     {
-        $items = R::find( 'items');
+        $page = intval($page);
+        $offset = ($page - 1) * self::SHOW_BY_DEFAULT;
+        $items = R::find('items', 'LIMIT :limit OFFSET :offset', [
+            'limit' => self::SHOW_BY_DEFAULT,
+            'offset' => $offset,
+        ]);
         return $items;
     }
 
-
+    /**
+     * get count items
+     * @param $categoryId
+     * @return int
+     */
+    public static function getItemsCount($slug)
+    {
+        if($slug === 0) {
+            return R::count('items');
+        } else {
+            $categoryId = self::getIdFromSlug($slug, 'categories');
+            return R::count('items', ' categories_id = ? ', [$categoryId]);
+        }
+    }
 }

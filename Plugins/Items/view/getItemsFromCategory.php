@@ -15,18 +15,20 @@
             <?php include ROOT . '/views/elements/categories.php'; ?>
         </div>
         <div class="column">
-            <h1 class="title is-1"><?= $itemsForView->name ?></h1>
+            <h1 class="title is-1"><?= $itemsForView['categoryName'] ?></h1>
 
-            <?php if (empty((array)$itemsForView->ownItemsList)) : ?>
+            <?php if (empty($itemsForView['items'])) : ?>
                 <p class="block">Nothing found</p>
             <?php endif; ?>
             <div class="columns">
                 <?php
-                foreach ($itemsForView->ownItemsList as $item) {
+                foreach ($itemsForView['items'] as $item) {
                     include ROOT . '/views/elements/item.php';
                 }
                 ?>
             </div>
+            <?= $pagination->get() ?>
         </div>
     </div>
+</div>
 <?php include ROOT . '/views/elements/footer.php'; ?>

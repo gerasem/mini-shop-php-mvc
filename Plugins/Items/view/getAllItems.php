@@ -27,6 +27,8 @@
                 }
                 ?>
             </div>
+            <?=$pagination->get()?>
         </div>
     </div>
+</div>
 <?php include ROOT . '/views/elements/footer.php'; ?>
