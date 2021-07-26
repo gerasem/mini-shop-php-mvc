@@ -3,12 +3,14 @@ return [
     'admin' => 'admin/admin/index',
     'admin/login' => 'admin/admin/login',
 
-    'items' => 'items/items/get',
+    'items/all' => 'items/items/getAllItems',
     'items/add' => 'items/items/add',
     'items/edit/([0-9]+)' => 'items/items/edit',
     'items/delete/([0-9]+)' => 'items/items/delete',
 
-    'item/([a-zA-Z0-9_\-\.]+)' => 'items/items/get/$1',
+    'items/new' => 'items/items/getNewItems',
+
+    'item/([a-zA-Z0-9_\-\.]+)' => 'items/items/getItem/$1',
     'categories/add' => 'categories/categories/add',
 
     'category/([a-zA-Z0-9_\-\.]+)' => 'items/items/getItemsFromCategory/$1',

@@ -2,6 +2,7 @@
 
 class Items extends AppModel
 {
+    const SHOW_BY_DEFAULT = 4;
     /**
      * New Item insert
      * @param $newItem
@@ -65,7 +66,7 @@ class Items extends AppModel
      * @param int $limit
      * @return array
      */
-    public static function getNewItems($limit = 4)
+    public static function getNewItems($limit = self::SHOW_BY_DEFAULT)
     {
         $newItems = R::find('items', 'ORDER BY date desc LIMIT ?', [$limit]);
         return $newItems;
@@ -87,6 +88,12 @@ class Items extends AppModel
     {
         $categoryId = self::getIdFromSlug($slug, 'categories');
         $items = R::load('categories', $categoryId);
+        return $items;
+    }
+
+    public static function getAllItems()
+    {
+        $items = R::find( 'items');
         return $items;
     }
 

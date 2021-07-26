@@ -12,7 +12,7 @@ if (file_exists(ROOT . "/images/{$item->image_alias}.png")) {
             </figure>
         </div>
         <div class="card-content">
-            <p class="title is-4"><?= $item->name ?></p>
+            <p class="title is-4"><a href="/item/<?= $item->alias ?>"><?= $item->name ?></a></p>
             <p class="subtitle is-6"><?= $item->price ?> Euro</p>
         </div>
         <footer class="card-footer">

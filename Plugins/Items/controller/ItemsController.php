@@ -15,11 +15,11 @@ final class ItemsController extends AppController
                 $newItem[$item] = $this->clearData($value);
             }
             $result = Items::addItem($newItem);
-            if($result === true) {
+            if ($result === true) {
                 setcookie("message", "New item added", time() + 1, '/');
                 header("Location: /items/add");
                 exit;
-            } else{
+            } else {
                 $errorForView = $result;
             }
 
@@ -30,18 +30,37 @@ final class ItemsController extends AppController
         return true;
     }
 
-    public function get($alias){
+    public function getItem($alias)
+    {
         $categoriesForView = Categories::getCategories();
         $itemForView = Items::getItem($alias);
-        require_once ROOT . '/Plugins/Items/view/get.php';
+        require_once ROOT . '/Plugins/Items/view/getItem.php';
 
         return true;
     }
 
-    public function getItemsFromCategory($alias){
+    public function getItemsFromCategory($categoryAlias)
+    {
+        $categoryAliasForView = $categoryAlias;
         $categoriesForView = Categories::getCategories();
-        $itemsForView = Items::getItemsFromCategory($alias);
-        require_once ROOT . '/Plugins/Items/view/getAll.php';
+        $itemsForView = Items::getItemsFromCategory($categoryAlias);
+        require_once ROOT . '/Plugins/Items/view/getItemsFromCategory.php';
+        return true;
+    }
+
+    public function getAllItems()
+    {
+        $categoriesForView = Categories::getCategories();
+        $itemsForView = Items::getAllItems();
+        require_once ROOT . '/Plugins/Items/view/getAllItems.php';
+        return true;
+    }
+
+    public function getNewItems()
+    {
+        $categoriesForView = Categories::getCategories();
+        $newItemsForView = Items::getNewItems(40);
+        require_once ROOT . '/Plugins/Items/view/getNewItems.php';
 
         return true;
     }
