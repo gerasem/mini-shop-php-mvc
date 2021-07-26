@@ -18,6 +18,10 @@ return [
     'category/([a-zA-Z0-9_\-\.]+)/page-([0-9]+)' => 'items/items/getItemsFromCategory/$1/$2',
     'category/([a-zA-Z0-9_\-\.]+)' => 'items/items/getItemsFromCategory/$1',
 
+    'user/register' => 'user/user/register',
+    'user/login'    => 'user/user/login',
+    'user/logout'   => 'user/user/logout',
+
     'index.php' => '/frontend/index',
     'index' => '/frontend/index',
     'index.html' => '/frontend/index',

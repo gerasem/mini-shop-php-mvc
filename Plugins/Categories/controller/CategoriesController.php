@@ -1,5 +1,5 @@
 <?php
-include ROOT . '/controllers/AppController.php';
+
 include ROOT . '/Plugins/Items/model/Items.php';
 include ROOT . '/Plugins/Categories/model/Categories.php';
 
